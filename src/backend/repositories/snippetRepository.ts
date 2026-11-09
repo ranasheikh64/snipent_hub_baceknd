@@ -80,7 +80,7 @@ export class SnippetRepository {
       technology: source.technology,
       level: source.level,
       tags: [...source.tags, "forked"],
-      files: source.files.map((f) => ({ ...f })),
+      files: source.files.map((f: any) => ({ ...f })),
       author: authorName,
       isPublic: true,
     });

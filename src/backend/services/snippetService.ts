@@ -22,7 +22,7 @@ export class SnippetService {
     const filtered = all.filter((s) => {
       const sTech = (s.technology || "").toUpperCase();
       const sCat = (s.category || "").toUpperCase();
-      const sTags = (s.tags || []).map((t) => t.toUpperCase());
+      const sTags = (s.tags || []).map((t: string) => t.toUpperCase());
 
       let matchTopic = true;
       if (topic === "ALL") {
@@ -50,15 +50,15 @@ export class SnippetService {
         s.description.toLowerCase().includes(q) ||
         s.category.toLowerCase().includes(q) ||
         s.technology.toLowerCase().includes(q) ||
-        s.files.some((f) => f.filename.toLowerCase().includes(q) || f.code.toLowerCase().includes(q));
+        s.files.some((f: any) => f.filename.toLowerCase().includes(q) || f.code.toLowerCase().includes(q));
 
       return matchTopic && matchLevel && matchSearch;
     });
 
     if (joinedTags.length > 0) {
       filtered.sort((a, b) => {
-        const aBoost = a.tags.some((t) => joinedTags.includes(t)) ? 1 : 0;
-        const bBoost = b.tags.some((t) => joinedTags.includes(t)) ? 1 : 0;
+        const aBoost = a.tags.some((t: string) => joinedTags.includes(t)) ? 1 : 0;
+        const bBoost = b.tags.some((t: string) => joinedTags.includes(t)) ? 1 : 0;
         return bBoost - aBoost;
       });
     }

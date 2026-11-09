@@ -97,3 +97,4 @@ npm run seed
 - `GET /api/communities` — Fetch developer communities
 - `POST /api/communities` — Create new space with hashtag
 - `POST /api/communities/:id/join` — Join / Leave community
+
