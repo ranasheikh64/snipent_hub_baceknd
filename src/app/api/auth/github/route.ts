@@ -12,7 +12,8 @@ export async function GET() {
     );
   }
 
-  const redirectUri = `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/api/auth/github/callback`;
+  const callbackBase = process.env.NEXT_PUBLIC_APP_URL || "https://snipenthubbaceknd.vercel.app";
+  const redirectUri = `${callbackBase}/api/auth/github/callback`;
   const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(
     redirectUri
   )}&scope=user:email`;

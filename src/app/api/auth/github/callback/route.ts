@@ -41,11 +41,23 @@ export async function GET(req: NextRequest) {
       avatar: githubUser.avatar_url,
     });
 
-    const res = NextResponse.redirect(new URL("/?auth=success", req.url));
-    res.cookies.set("token", token, { httpOnly: true, path: "/", maxAge: 60 * 60 * 24 * 30 });
+    const frontendBase = process.env.FRONTEND_URL || process.env.NEXT_PUBLIC_FRONTEND_URL || "http://localhost:3000";
+    const redirectUrl = new URL("/", frontendBase);
+    redirectUrl.searchParams.set("auth", "success");
+    redirectUrl.searchParams.set("token", token);
+
+    const res = NextResponse.redirect(redirectUrl);
+    res.cookies.set("token", token, {
+      httpOnly: true,
+      path: "/",
+      maxAge: 60 * 60 * 24 * 30,
+      sameSite: "none",
+      secure: true,
+    });
     return res;
   } catch (err: any) {
-    return NextResponse.redirect(new URL(`/?error=${encodeURIComponent(err.message)}`, req.url));
+    const frontendBase = process.env.FRONTEND_URL || process.env.NEXT_PUBLIC_FRONTEND_URL || "http://localhost:3000";
+    return NextResponse.redirect(new URL(`/?error=${encodeURIComponent(err.message)}`, frontendBase));
   }
 }
 

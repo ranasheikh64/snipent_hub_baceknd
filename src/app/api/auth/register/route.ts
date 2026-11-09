@@ -9,7 +9,13 @@ export async function POST(req: NextRequest) {
     }
     const result = await AuthService.register(name, email, password);
     const response = NextResponse.json({ success: true, ...result });
-    response.cookies.set("token", result.token, { httpOnly: true, path: "/", maxAge: 60 * 60 * 24 * 30 });
+    response.cookies.set("token", result.token, {
+      httpOnly: true,
+      path: "/",
+      maxAge: 60 * 60 * 24 * 30,
+      sameSite: "none",
+      secure: true,
+    });
     return response;
   } catch (err: any) {
     return NextResponse.json({ success: false, message: err.message || "Registration failed" }, { status: 400 });
